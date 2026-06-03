@@ -161,7 +161,7 @@ const Home = () => {
           
           <motion.div className="cta-buttons" variants={itemVariants}>
             <motion.a
-              href="https://drive.google.com/file/d/1TAi2MSMhMiWm9zDv03sxvXs3GVDDYpvz/view?usp=drivesdk"
+              href="https://drive.google.com/file/d/1IMIHKO2iR2yTnIuyU8VL_7IunErqCpfF/view"
               className="btn primary-btn"
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(63, 81, 181, 0.5)' }}
               whileTap={{ scale: 0.95 }}
