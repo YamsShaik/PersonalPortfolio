@@ -153,7 +153,7 @@ const Home = () => {
             />
           </motion.div>
           
-          <motion.p className="bio" variants={itemVariants}>
+          <motion.p className="bio" variants={itemVariants}>0+
             With good technincal experience in DevOps and AWS, I help businesses scale their infrastructure efficiently.
             I specialize in automating CI/CD pipelines, optimizing cloud resources, and ensuring high availability
             and fault tolerance for modern applications.
