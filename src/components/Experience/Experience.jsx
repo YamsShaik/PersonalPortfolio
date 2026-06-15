@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './Experience.css';
-import { FaJenkins, FaGithub, FaGitlab, FaAws, FaDocker, FaCode } from 'react-icons/fa';
-import { SiTerraform, SiKubernetes, SiPrometheus, SiGrafana, SiAnsible } from 'react-icons/si';
+import { FaJenkins, FaAws, FaDocker, FaCode } from 'react-icons/fa';
+import { SiKubernetes, SiGrafana } from 'react-icons/si';
 
 const Experience = () => {
   const timelineRef = useRef(null);

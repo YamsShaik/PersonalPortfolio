@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import {
-  FaPython, FaGitAlt, FaJenkins, FaDocker, FaAws,
-  FaLinux, FaChartLine, FaShieldAlt, FaTerminal, FaCogs, FaCode
+   FaGitAlt, FaJenkins, FaDocker, FaAws,
+  FaLinux, FaChartLine, FaShieldAlt, FaTerminal, FaCode
 } from 'react-icons/fa';
-import { SiTerraform, SiAnsible, SiKubernetes, SiPrometheus, SiGrafana } from 'react-icons/si';
+import { SiTerraform, SiAnsible, SiKubernetes } from 'react-icons/si';
 import './Skills.css';
 
 const Skills = () => {
