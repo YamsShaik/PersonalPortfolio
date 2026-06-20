@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaBriefcase , FaEnvelope, FaPhone, FaHeart } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaBriefcase , FaEnvelope, FaPhone, FaHeart } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
