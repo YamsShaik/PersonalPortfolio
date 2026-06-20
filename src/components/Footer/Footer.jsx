@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaPhone, FaHeart } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaBriefcase , FaEnvelope, FaPhone, FaHeart } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
@@ -116,14 +116,14 @@ const Footer = () => {
                     </div>
                     
                     <div className="footer-social">
-                        <a href="https://github.com/ShaikYams97" target="_blank" rel="noopener noreferrer" className="social-link">
+                        <a href="https://github.com/YamsShaik" target="_blank" rel="noopener noreferrer" className="social-link">
                             <FaGithub />
                         </a>
                         <a href="https://www.linkedin.com/in/shaik-yams-194097334/" target="_blank" rel="noopener noreferrer" className="social-link">
                             <FaLinkedin />
                         </a>
-                        <a href="https://x.com/YamsShaik" target="_blank" rel="noopener noreferrer" className="social-link">
-                            <FaTwitter />
+                        <a href="https://www.naukri.com/mnjuser/profile?id=&altresid" target="_blank" rel="noopener noreferrer" className="social-link">
+                            <FaBriefcase />
                         </a>
                     </div>
                 </div>
