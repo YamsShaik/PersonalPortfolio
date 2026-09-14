@@ -142,7 +142,7 @@ h1 {
 
 /* Tech Stack Section */
 .tech-stack {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 7rem auto;
   text-align: center;
 }
@@ -184,6 +184,7 @@ h1 {
   background-color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  min-width: 110px;
 }
 
 .tech-icon svg {
@@ -203,6 +204,7 @@ h1 {
   font-size: 0.95rem;
   font-weight: 500;
   color: #37474F; /* Darker for better readability on white cards */
+  text-align: center;
 }
 
 /* Services Section */

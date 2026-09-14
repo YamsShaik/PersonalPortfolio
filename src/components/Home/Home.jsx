@@ -3,7 +3,18 @@ import { motion, useAnimation } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { FaDownload } from 'react-icons/fa';
 import { FaAws, FaDocker } from 'react-icons/fa';
-import { SiKubernetes, SiTerraform, SiJenkins, SiAnsible, SiGitlab } from 'react-icons/si';
+import {
+  SiKubernetes,
+  SiTerraform,
+  SiJenkins,
+  SiAnsible,
+  SiPrometheus,
+  SiGrafana,
+  SiElastic,
+  SiGithubactions,
+  SiGnubash,
+  SiPython,
+} from 'react-icons/si';
 import './Home.css';
 
 const Home = () => {
@@ -161,7 +172,7 @@ const Home = () => {
           
           <motion.div className="cta-buttons" variants={itemVariants}>
             <motion.a
-              href="https://drive.google.com/file/d/1IMIHKO2iR2yTnIuyU8VL_7IunErqCpfF/view"
+              href="https://drive.google.com/file/d/14YfT0rgXkBj7VaPLsV6CY7Z2tMaRQ06Z/view"
               className="btn primary-btn"
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(63, 81, 181, 0.5)' }}
               whileTap={{ scale: 0.95 }}
@@ -184,6 +195,7 @@ const Home = () => {
             <FaAws size={40} />
             <span>AWS</span>
           </motion.div>
+        
           <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
             <FaDocker size={40} />
             <span>Docker</span>
@@ -201,12 +213,32 @@ const Home = () => {
             <span>Jenkins</span>
           </motion.div>
           <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
+            <SiGithubactions size={40} />
+            <span>GitHub Actions</span>
+          </motion.div>
+          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
             <SiAnsible size={40} />
             <span>Ansible</span>
           </motion.div>
           <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiGitlab size={40} />
-            <span>GitLab CI</span>
+            <SiPrometheus size={40} />
+            <span>Prometheus</span>
+          </motion.div>
+          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
+            <SiGrafana size={40} />
+            <span>Grafana</span>
+          </motion.div>
+          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
+            <SiElastic size={40} />
+            <span>ELK Stack</span>
+          </motion.div>
+          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
+            <SiPython size={40} />
+            <span>Python</span>
+          </motion.div>
+          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
+            <SiGnubash size={40} />
+            <span>Bash</span>
           </motion.div>
         </div>
       </motion.div>

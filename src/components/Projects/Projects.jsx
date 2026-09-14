@@ -41,29 +41,29 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: "End-to-End AWS Infrastructure Automation",
-      platform: "Terraform",
-      description: "Built a fully automated infrastructure on AWS using Terraform, provisioning VPC, subnets, EC2, RDS, and S3. Integrated CI/CD pipelines in GitHub Actions for seamless deployments.",
-      skills: ["Terraform", "AWS (VPC, EC2, RDS, S3)", "GitHub Actions", "Automation"],
-      impact: "Reduced manual provisioning time by 80% and ensured infrastructure consistency.",
+      title: "Azure DevOps CI/CD Pipeline to AKS",
+      platform: "Azure Kubernetes Service (AKS)",
+      description: "Built an end-to-end CI/CD pipeline using Azure DevOps Pipelines to build, test, and containerize a microservices application, pushing images to Azure Container Registry (ACR) and deploying to Azure Kubernetes Service (AKS) using Helm charts. Implemented multi-stage YAML pipelines with approval gates for staging and production environments.",
+      skills: ["Azure DevOps", "AKS", "ACR", "Helm", "YAML Pipelines", "CI/CD"],
+      impact: "Cut release cycle time by 65%, standardized deployments across environments with Helm, and eliminated manual approval bottlenecks through automated gated releases.",
       github: ""
     },
     {
       id: 4,
-      title: "Serverless Application Development",
-      platform: "AWS Lambda",
-      description: "Designed and deployed a serverless application using AWS Lambda and API Gateway, with DynamoDB as the database backend. Created a real-world notification system demonstrating cost-effective scalability.",
-      skills: ["AWS Lambda", "API Gateway", "DynamoDB", "CloudWatch", "IAM"],
-      impact: "Delivered a highly available, scalable application with a 70% reduction in operational costs.",
+      title: "Infrastructure as Code on Azure with Terraform",
+      platform: "Azure (Terraform)",
+      description: "Automated provisioning of Azure infrastructure using Terraform, including Virtual Networks, Subnets, AKS clusters, Azure Key Vault, and Storage Accounts. Structured reusable Terraform modules and integrated remote state management with Azure Blob Storage for team collaboration.",
+      skills: ["Terraform", "Azure VNet", "AKS", "Key Vault", "Azure Storage", "IaC"],
+      impact: "Reduced infrastructure provisioning time by 75%, enforced consistent environment configuration, and enabled safe collaborative changes via remote state locking.",
       github: ""
     },
     {
       id: 5,
-      title: "Centralized Monitoring and Alerting System",
-      platform: "CloudWatch & Prometheus",
-      description: "Configured CloudWatch and Prometheus for comprehensive monitoring and alerting across AWS services. Integrated Grafana dashboards and Slack notifications for real-time incident alerts.",
-      skills: ["AWS CloudWatch", "Prometheus", "Grafana", "Slack API"],
-      impact: "Enhanced reliability through proactive monitoring and reduced incident response time by 50%.",
+      title: "Azure Monitoring, Alerting & Cost Optimization",
+      platform: "Azure Monitor & Log Analytics",
+      description: "Implemented centralized observability for Azure workloads using Azure Monitor, Log Analytics workspaces, and Application Insights. Configured custom alert rules, Workbooks dashboards, and Azure Cost Management budgets with automated Teams/Slack notifications for anomalies.",
+      skills: ["Azure Monitor", "Log Analytics", "Application Insights", "Azure Cost Management", "KQL"],
+      impact: "Reduced mean time to detect incidents by 55% and identified cost-saving opportunities that lowered monthly cloud spend by 20%.",
       github: ""
     }
   ];
@@ -107,12 +107,14 @@ const Projects = () => {
               <div key={project.id} className="project-details">
                 <div className="project-header">
                   <h3>{project.title}</h3>
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="github-btn">
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                    View Code
-                  </a>
+                  {project.github ? (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="github-btn">
+                      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                      </svg>
+                      View Code
+                    </a>
+                  ) : null}
                 </div>
                 
                 <div className="project-content">
