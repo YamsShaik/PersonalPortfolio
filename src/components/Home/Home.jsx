@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { FaDownload } from 'react-icons/fa';
-import { FaAws, FaDocker } from 'react-icons/fa';
+import {
+  FaAws,
+  FaDocker,
+  FaDownload,
+  FaCloud,
+  FaCodeBranch,
+  FaCubes,
+  FaCode,
+} from 'react-icons/fa';
 import {
   SiKubernetes,
   SiTerraform,
@@ -17,290 +24,174 @@ import {
 } from 'react-icons/si';
 import './Home.css';
 
+const techStack = [
+  { name: 'AWS', Icon: FaAws },
+  { name: 'Docker', Icon: FaDocker },
+  { name: 'Kubernetes', Icon: SiKubernetes },
+  { name: 'Terraform', Icon: SiTerraform },
+  { name: 'Jenkins', Icon: SiJenkins },
+  { name: 'GitHub Actions', Icon: SiGithubactions },
+  { name: 'Ansible', Icon: SiAnsible },
+  { name: 'Prometheus', Icon: SiPrometheus },
+  { name: 'Grafana', Icon: SiGrafana },
+  { name: 'ELK Stack', Icon: SiElastic },
+  { name: 'Python', Icon: SiPython },
+  { name: 'Bash', Icon: SiGnubash },
+];
+
+const pipeline = [
+  { label: 'Commit', detail: 'main · a41f9c2' },
+  { label: 'Build', detail: 'Docker image' },
+  { label: 'Test', detail: '128 checks passed' },
+  { label: 'Deploy', detail: 'EKS rolling update' },
+  { label: 'Live', detail: '99.99% uptime' },
+];
+
+const services = [
+  {
+    Icon: FaCloud,
+    title: 'AWS Cloud Infrastructure',
+    text: 'Scalable, secure and cost-aware AWS architectures built around what your business actually needs.',
+  },
+  {
+    Icon: FaCodeBranch,
+    title: 'CI/CD Pipeline Automation',
+    text: 'Delivery pipelines that ship software quickly, repeatably and with fewer surprises.',
+  },
+  {
+    Icon: FaCubes,
+    title: 'Kubernetes Orchestration',
+    text: 'Containerized applications run on Kubernetes for high availability and easy scaling.',
+  },
+  {
+    Icon: FaCode,
+    title: 'Infrastructure as Code',
+    text: 'Terraform, CloudFormation and Ansible keep every environment consistent and version-controlled.',
+  },
+];
+
 const Home = () => {
-  const controls = useAnimation();
+  const heroRef = useRef(null);
+  const reduce = useReducedMotion();
 
-  useEffect(() => {
-    controls.start('visible');
-  }, [controls]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
+  // Soft spotlight that follows the cursor inside the hero
+  const handleMove = (e) => {
+    if (reduce || !heroRef.current) return;
+    const r = heroRef.current.getBoundingClientRect();
+    heroRef.current.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    heroRef.current.style.setProperty('--my', `${e.clientY - r.top}px`);
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 100 }
-    },
-  };
-
-  const cloudPathVariants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: { 
-      pathLength: 1, 
-      opacity: 1,
-      transition: { duration: 2, ease: "easeInOut" }
-    }
-  };
+  const reveal = (delay = 0) => ({
+    initial: reduce ? false : { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay, ease: [0.2, 0.7, 0.2, 1] },
+  });
 
   return (
-    <div className="home-container">
-      {/* Enhanced Background Animation */}
-      <div className="background-animation">
-        <div className="cloud-servers">
-          <motion.svg 
-            width="100%" 
-            height="100%" 
-            viewBox="0 0 800 600" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.path
-              d="M100,300 Q150,100 300,200 T500,300 T700,400"
-              stroke="#4E8BC0"
-              strokeWidth="4"
-              fill="transparent"
-              variants={cloudPathVariants}
-            />
-            <motion.circle cx="100" cy="300" r="20" fill="#5C6BC0" 
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1, duration: 0.5 }}
-            />
-            <motion.circle cx="300" cy="200" r="30" fill="#3949AB" 
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
-            />
-            <motion.circle cx="500" cy="300" r="25" fill="#5C6BC0" 
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2, duration: 0.5 }}
-            />
-            <motion.circle cx="700" cy="400" r="20" fill="#3949AB" 
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.5, duration: 0.5 }}
-            />
-            
-            {/* Additional animated elements */}
-            <motion.path
-              d="M200,450 Q300,400 400,450 T600,400"
-              stroke="#7986CB"
-              strokeWidth="3"
-              fill="transparent"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 0.7 }}
-              transition={{ delay: 3, duration: 2, ease: "easeInOut" }}
-            />
-            
-            <motion.rect 
-              x="150" 
-              y="150" 
-              width="40" 
-              height="40" 
-              rx="5"
-              fill="#3949AB"
-              initial={{ opacity: 0, rotate: 0 }}
-              animate={{ opacity: 0.8, rotate: 180 }}
-              transition={{ delay: 2, duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-            />
-            
-            <motion.rect 
-              x="600" 
-              y="200" 
-              width="30" 
-              height="30" 
-              rx="5"
-              fill="#5C6BC0"
-              initial={{ opacity: 0, rotate: 0 }}
-              animate={{ opacity: 0.8, rotate: -180 }}
-              transition={{ delay: 2.5, duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-            />
-          </motion.svg>
-        </div>
-      </div>
+    <div className="home">
+      <section className="hero" ref={heroRef} onMouseMove={handleMove}>
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-grid" aria-hidden="true" />
 
-      <motion.div
-        className="hero-content-centered"
-        variants={containerVariants}
-        initial="hidden"
-        animate={controls}
-      >
-        <div className="hero-text">
-          <motion.h1 variants={itemVariants}>
-            Hi, I'm <span className="highlight">Shaik Yams </span>
+        <div className="hero-copy">
+          <motion.p className="status" {...reveal(0.1)}>
+            <span className="status-dot" /> Available for new projects
+          </motion.p>
+
+          <motion.h1 {...reveal(0.2)}>
+            Hi, I&apos;m Shaik Yams.
+            <br />
+            I build infrastructure that doesn&apos;t blink.
           </motion.h1>
-          
-          <motion.div className="typewriter" variants={itemVariants}>
-            
+
+          <motion.div className="role" {...reveal(0.35)}>
             <TypeAnimation
               sequence={[
-                ' DevOps Engineer',
-                1000,
-                ' AWS Specialist',
-                1000,
-                ' Cloud Architect',
-                1000,
-                ' Kubernetes Administrator',
-                1000,
+                'DevOps Engineer',
+                1400,
+                'AWS Specialist',
+                1400,
+                'Cloud Architect',
+                1400,
+                'Kubernetes Administrator',
+                1400,
               ]}
               wrapper="span"
               speed={50}
-              className="typed-text"
               repeat={Infinity}
+              className="role-text"
             />
           </motion.div>
-          
-          <motion.p className="bio" variants={itemVariants}>
-            With good technincal experience in DevOps and AWS, I help businesses scale their infrastructure efficiently.
-            I specialize in automating CI/CD pipelines, optimizing cloud resources, and ensuring high availability
-            and fault tolerance for modern applications.
+
+          <motion.p className="bio" {...reveal(0.45)}>
+            With solid technical experience in DevOps and AWS, I help businesses scale their
+            infrastructure efficiently. I automate CI/CD pipelines, optimize cloud resources, and
+            keep modern applications highly available and fault tolerant.
           </motion.p>
-          
-          <motion.div className="cta-buttons" variants={itemVariants}>
-            <motion.a
+
+          <motion.div className="cta" {...reveal(0.55)}>
+            <a
               href="https://drive.google.com/file/d/14YfT0rgXkBj7VaPLsV6CY7Z2tMaRQ06Z/view"
-              className="btn primary-btn"
-              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(63, 81, 181, 0.5)' }}
-              whileTap={{ scale: 0.95 }}
+              className="btn btn-primary"
+              target="_blank"
+              rel="noreferrer"
             >
-              <FaDownload /> View Resume
-            </motion.a>
+              <FaDownload /> View resume
+            </a>
           </motion.div>
         </div>
-      </motion.div>
 
-      <motion.div 
-        className="tech-stack"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-      >
-        <h2>Tech Stack</h2>
-        <div className="tech-icons">
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <FaAws size={40} />
-            <span>AWS</span>
-          </motion.div>
-        
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <FaDocker size={40} />
-            <span>Docker</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiKubernetes size={40} />
-            <span>Kubernetes</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiTerraform size={40} />
-            <span>Terraform</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiJenkins size={40} />
-            <span>Jenkins</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiGithubactions size={40} />
-            <span>GitHub Actions</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiAnsible size={40} />
-            <span>Ansible</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiPrometheus size={40} />
-            <span>Prometheus</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiGrafana size={40} />
-            <span>Grafana</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiElastic size={40} />
-            <span>ELK Stack</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiPython size={40} />
-            <span>Python</span>
-          </motion.div>
-          <motion.div className="tech-icon" whileHover={{ y: -10, scale: 1.1 }}>
-            <SiGnubash size={40} />
-            <span>Bash</span>
-          </motion.div>
-        </div>
-      </motion.div>
+        {/* Signature moment: a deploy pipeline that runs on load and loops */}
+        <motion.aside className="pipeline" aria-label="Example deployment pipeline" {...reveal(0.5)}>
+          <div className="pipeline-head">
+            <span className="dots" aria-hidden="true">
+              <i /><i /><i />
+            </span>
+            <span className="pipeline-title">deploy-pipeline</span>
+          </div>
+          <ol className="stages">
+            {pipeline.map((s, i) => (
+              <li key={s.label} className="stage" style={{ '--i': i }}>
+                <span className="stage-node" />
+                <div>
+                  <strong>{s.label}</strong>
+                  <span>{s.detail}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </motion.aside>
+      </section>
 
-      <motion.div 
-        className="services"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-      >
-        <h2>Services I Offer</h2>
-        
-        <div className="services-grid">
-          <motion.div 
-            className="service-card"
-            whileHover={{ 
-              y: -10, 
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
-            }}
-          >
-            <div className="service-icon aws-icon"></div>
-            <h3>AWS Cloud Infrastructure</h3>
-            <p>Design and implement scalable, secure, and cost-effective AWS architectures tailored to your business needs.</p>
-          </motion.div>
-          
-          <motion.div 
-            className="service-card"
-            whileHover={{ 
-              y: -10, 
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
-            }}
-          >
-            <div className="service-icon cicd-icon"></div>
-            <h3>CI/CD Pipeline Automation</h3>
-            <p>Build efficient delivery pipelines that enable rapid and reliable software deployments.</p>
-          </motion.div>
-          
-          <motion.div 
-            className="service-card"
-            whileHover={{ 
-              y: -10, 
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
-            }}
-          >
-            <div className="service-icon k8s-icon"></div>
-            <h3>Kubernetes Orchestration</h3>
-            <p>Set up and manage containerized applications with Kubernetes for high availability and scalability.</p>
-          </motion.div>
-          
-          <motion.div 
-            className="service-card"
-            whileHover={{ 
-              y: -10, 
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
-            }}
-          >
-            <div className="service-icon iac-icon"></div>
-            <h3>Infrastructure as Code</h3>
-            <p>Implement IaC practices using Terraform, CloudFormation, and Ansible for consistent and version-controlled infrastructure.</p>
-          </motion.div>
+      <section className="stack" aria-labelledby="stack-title">
+        <h2 id="stack-title">The tools I work with</h2>
+        <div className="marquee">
+          <div className="marquee-track">
+            {[...techStack, ...techStack].map(({ name, Icon }, i) => (
+              <div className="chip" key={`${name}-${i}`} aria-hidden={i >= techStack.length}>
+                <Icon size={26} />
+                <span>{name}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </section>
+
+      <section className="services" aria-labelledby="services-title">
+        <h2 id="services-title">What I can do for you</h2>
+        <ul className="service-list">
+          {services.map(({ Icon, title, text }) => (
+            <li className="service" key={title}>
+              <span className="service-icon">
+                <Icon size={22} />
+              </span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };

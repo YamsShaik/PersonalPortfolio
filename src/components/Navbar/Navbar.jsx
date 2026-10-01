@@ -1,133 +1,137 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Cloud, Code, Home, User, Terminal, Briefcase, Mail, Menu, X } from 'lucide-react';
+import './Navbar.css';
+
+const sections = ['home', 'about', 'skills', 'experience', 'projects'];
+
+const icons = {
+  home: Home,
+  about: User,
+  skills: Code,
+  experience: Briefcase,
+  projects: Terminal,
+};
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const navRef = useRef(null);
+  const reduce = useReducedMotion();
 
+  // Highlight the section currently in view
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-      
-      // Determine active section based on scroll position
-      const sections = ['home', 'about', 'skills', 'experience', 'projects', 'contact'];
-      const currentPosition = window.scrollY + 100;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (currentPosition >= offsetTop && currentPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
+      const all = [...sections, 'contact'];
+      const position = window.scrollY + 100;
+      for (const section of all) {
+        const el = document.getElementById(section);
+        if (el && position >= el.offsetTop && position < el.offsetTop + el.offsetHeight) {
+          setActiveSection(section);
+          break;
         }
       }
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close the mobile drawer on outside click or Escape
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target) && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-    };
+    if (!isMenuOpen) return undefined;
 
-    document.addEventListener('mousedown', handleClickOutside);
-    
+    const onClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) setIsMenuOpen(false);
+    };
+    const onKey = (e) => e.key === 'Escape' && setIsMenuOpen(false);
+
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onKey);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKey);
     };
   }, [isMenuOpen]);
 
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Close menu when nav item is clicked
-  const closeMenu = () => {
+  const handleNavClick = (section) => {
+    setActiveSection(section);
     setIsMenuOpen(false);
   };
 
-  const getIcon = (section) => {
-    switch(section) {
-      case 'home': return <Home size={18} />;
-      case 'about': return <User size={18} />;
-      case 'skills': return <Code size={18} />;
-      case 'experience': return <Briefcase size={18} />;
-      case 'projects': return <Terminal size={18} />;
-      case 'contact': return <Mail size={18} />;
-      default: return null;
-    }
-  };
-
   return (
-    <nav 
-      ref={navRef}
-      className={`navbar ${isScrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`}
-    >
-      <div className="navbar-container">
-        <div className="logo-container">
-          <Link to="/" className="logo">
-            <Cloud size={24} className="logo-icon" />
-            <span className="logo-text">Shaik<span className="logo-accent">Yams</span></span>
-            <div className="logo-flag">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
-                alt="India Flag"
-                width="24"
-                height="16"
-              />
-            </div>
+    <>
+      {isMenuOpen && <div className="nav-overlay" aria-hidden="true" />}
+
+      <nav ref={navRef} className={`navbar ${isMenuOpen ? 'menu-open' : ''}`} aria-label="Main">
+        <div className="navbar-container">
+          <Link to="/" className="logo" onClick={() => handleNavClick('home')}>
+            <span className="logo-mark">
+              <Cloud size={20} />
+            </span>
+            <span className="logo-text">Shaik Yams</span>
+            <img
+              className="logo-flag"
+              src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
+              alt="India flag"
+              width="22"
+              height="15"
+            />
           </Link>
-        </div>
 
-        {/* Hamburger Menu */}
-        <button 
-          className="menu-toggle" 
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          <button
+            className="menu-toggle"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
 
-        {/* Navigation Links */}
-        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="nav-links">
-            {['home', 'about', 'skills', 'experience', 'projects'].map((section) => (
-              <li key={section} className={activeSection === section ? 'active' : ''}>
-                <Link to={section === 'home' ? '/' : `/${section}`} onClick={closeMenu}>
-                  <span className="nav-icon">{getIcon(section)}</span>
-                  <span className="nav-text">{section.charAt(0).toUpperCase() + section.slice(1)}</span>
-                  <span className="nav-indicator"></span>
+          <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            <ul className="nav-links">
+              {sections.map((section) => {
+                const Icon = icons[section];
+                const isActive = activeSection === section;
+                return (
+                  <li key={section}>
+                    <Link
+                      to={section === 'home' ? '/' : `/${section}`}
+                      onClick={() => handleNavClick(section)}
+                      className={isActive ? 'active' : ''}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-pill"
+                          className="nav-pill"
+                          transition={
+                            reduce ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 30 }
+                          }
+                        />
+                      )}
+                      <Icon size={17} className="nav-icon" />
+                      <span className="nav-text">
+                        {section.charAt(0).toUpperCase() + section.slice(1)}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+
+              <li className="contact-item">
+                <Link to="/contact" className="contact-button" onClick={() => handleNavClick('contact')}>
+                  <Mail size={17} />
+                  <span>Contact</span>
                 </Link>
               </li>
-            ))}
-            <li className="contact-button">
-              <Link to="/contact" onClick={closeMenu}>
-                <Mail size={18} />
-                <span>Contact</span>
-              </Link>
-            </li>
-          </ul>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 
