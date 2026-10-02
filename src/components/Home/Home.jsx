@@ -66,7 +66,7 @@ const services = [
   {
     Icon: FaCode,
     title: 'Infrastructure as Code',
-    text: 'Terraform, CloudFormation and Ansible keep every environment consistent and version-controlled.',
+    text: 'Terraform and Ansible keep every environment consistent and version-controlled.',
   },
 ];
 
