@@ -1,4 +1,4 @@
-/* Experience.css — "Control Room" redesign.
+/* Experience.css — "Control Room" redesign, mobile-adaptive.
    Every selector starts with .xp- and there are no global rules (no body, *, :root,
    bare element selectors), so this file cannot affect any other section. */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap');
@@ -22,6 +22,7 @@
   color: var(--xp-text);
   font-family: var(--xp-body);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .xp-section *,
@@ -49,7 +50,7 @@
   margin: 0;
   padding: 0;
   font-family: var(--xp-display);
-  font-size: clamp(2.4rem, 5.6vw, 4rem);
+  font-size: clamp(2rem, 5.6vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -62,7 +63,7 @@
 .xp-head p {
   max-width: 56ch;
   margin: 1.3rem auto 0;
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
   line-height: 1.7;
   color: var(--xp-muted);
 }
@@ -74,6 +75,11 @@
   gap: 3rem;
   align-items: start;
   margin-top: 3.5rem;
+}
+
+/* grid items must be allowed to shrink or long text widens the page on phones */
+.xp-body > * {
+  min-width: 0;
 }
 
 /* ---------- Role summary ---------- */
@@ -127,6 +133,7 @@
 
 .xp-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   margin: 0.7rem 0 0;
@@ -135,6 +142,7 @@
 }
 
 .xp-meta svg {
+  flex: none;
   color: var(--xp-accent);
 }
 
@@ -172,7 +180,7 @@
 .xp-sub {
   margin: 0 0 1.2rem;
   font-family: var(--xp-display);
-  font-size: 1.6rem;
+  font-size: clamp(1.35rem, 3vw, 1.6rem);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -203,6 +211,7 @@
   align-items: center;
   gap: 1.1rem;
   width: 100%;
+  min-height: 44px;
   padding: 1.2rem 0.6rem;
   border: 0;
   background: transparent;
@@ -210,6 +219,7 @@
   font-family: var(--xp-body);
   text-align: left;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .xp-icon {
@@ -286,6 +296,7 @@
 .xp-focus li {
   display: flex;
   gap: 0.9rem;
+  min-width: 0;
 }
 
 .xp-check {
@@ -318,6 +329,7 @@
   .xp-body {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+    margin-top: 2.5rem;
   }
   .xp-role {
     position: static;
@@ -333,19 +345,74 @@
   }
 }
 
-@media (max-width: 560px) {
-  .xp-section {
-    padding: 6rem 1rem 4rem;
-  }
+@media (max-width: 640px) {
   .xp-focus {
     grid-template-columns: 1fr;
   }
-  .xp-metrics dt {
+  .xp-sub-spaced {
+    margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .xp-section {
+    padding: 5.5rem 1rem 4rem;
+  }
+  .xp-role {
+    padding: 1.3rem 1.2rem;
+    border-radius: 16px;
+  }
+  .xp-role h2 {
     font-size: 1.6rem;
+  }
+  .xp-company {
+    font-size: 1.1rem;
+  }
+  .xp-metrics {
+    margin-top: 1.2rem;
+  }
+  .xp-metrics dt {
     min-width: 0;
+    font-size: 1.6rem;
+  }
+  .xp-metrics dd {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+  .xp-trigger {
+    gap: 0.85rem;
+    padding: 1rem 0.3rem;
+  }
+  .xp-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .xp-titles strong {
+    font-size: 1.05rem;
+  }
+  .xp-titles span {
+    font-size: 0.88rem;
   }
   .xp-panel p {
-    padding-left: 0.6rem;
+    padding: 0 0.3rem 1.1rem;
+    font-size: 0.98rem;
+  }
+}
+
+/* very small phones: metrics become one row each */
+@media (max-width: 360px) {
+  .xp-metrics {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .xp-metrics div {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.8rem;
+  }
+  .xp-metrics dt {
+    min-width: 3.6rem;
   }
 }
 

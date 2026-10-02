@@ -1,4 +1,4 @@
-/* Projects.css — "Control Room" redesign.
+/* Projects.css — "Control Room" redesign, mobile-adaptive.
    Every selector starts with .pj- and there are no global rules (no body, *, :root,
    bare element selectors), so this file cannot affect any other section. */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -23,6 +23,7 @@
   color: var(--pj-text);
   font-family: var(--pj-body);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .pj-section *,
@@ -50,7 +51,7 @@
   margin: 0;
   padding: 0;
   font-family: var(--pj-display);
-  font-size: clamp(2.4rem, 5.6vw, 4rem);
+  font-size: clamp(2rem, 5.6vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -63,7 +64,7 @@
 .pj-head p {
   max-width: 56ch;
   margin: 1.3rem auto 0;
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
   line-height: 1.7;
   color: var(--pj-muted);
 }
@@ -81,6 +82,7 @@
 
 .pj-tab {
   flex: none;
+  min-height: 44px;
   padding: 0.6rem 1.2rem;
   border: 1px solid var(--pj-line);
   border-radius: 999px;
@@ -91,6 +93,7 @@
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
@@ -127,8 +130,13 @@
   border-bottom: 1px solid var(--pj-line);
 }
 
+.pj-card-head > div {
+  min-width: 0;
+}
+
 .pj-platform {
   display: inline-block;
+  max-width: 100%;
   margin-bottom: 0.7rem;
   padding: 0.25rem 0.75rem;
   border: 1px solid var(--pj-line);
@@ -137,15 +145,17 @@
   color: var(--pj-accent);
   font-family: var(--pj-mono);
   font-size: 0.8rem;
+  overflow-wrap: anywhere;
 }
 
 .pj-card-head h2 {
   margin: 0;
   font-family: var(--pj-display);
-  font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+  font-size: clamp(1.25rem, 2.8vw, 1.9rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  overflow-wrap: break-word;
 }
 
 .pj-code {
@@ -172,6 +182,11 @@
 .pj-card-body {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
+}
+
+/* grid items must be allowed to shrink or long words widen the page on phones */
+.pj-card-body > * {
+  min-width: 0;
 }
 
 .pj-story {
@@ -276,6 +291,7 @@
   background: var(--pj-surface);
   color: var(--pj-muted);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -303,22 +319,80 @@
     border-top: 1px solid var(--pj-line);
     border-radius: 0 0 20px 20px;
   }
+  /* tabs become a swipeable row; flex-start stops the first tab being cut off */
   .pj-tabs {
     justify-content: flex-start;
+    margin-top: 2rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, #000 90%, transparent);
+  }
+  .pj-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .pj-tab {
+    scroll-snap-align: start;
   }
 }
 
 @media (max-width: 560px) {
   .pj-section {
-    padding: 6rem 1rem 4rem;
+    padding: 5.5rem 1rem 4rem;
+  }
+  .pj-card {
+    border-radius: 16px;
   }
   .pj-card-head {
     flex-direction: column;
-    padding: 1.4rem 1.3rem;
+    gap: 1rem;
+    padding: 1.3rem 1.2rem;
+  }
+  /* full-width tap target for the code link */
+  .pj-code {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.1rem;
   }
   .pj-story,
   .pj-impact {
-    padding: 1.4rem 1.3rem 1.6rem;
+    padding: 1.3rem 1.2rem 1.5rem;
+  }
+  .pj-impact {
+    border-radius: 0 0 16px 16px;
+  }
+  .pj-desc {
+    margin-bottom: 1.4rem;
+    font-size: 0.98rem;
+  }
+  .pj-skills {
+    gap: 0.4rem;
+  }
+  .pj-skills li {
+    padding: 0.3rem 0.65rem;
+    font-size: 0.76rem;
+  }
+  /* stats sit side by side instead of stacking */
+  .pj-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+  }
+  .pj-stats div,
+  .pj-stats div:first-child {
+    padding: 0;
+    border-top: 0;
+  }
+  .pj-stats dt {
+    font-size: 2.1rem;
+  }
+  .pj-nav {
+    gap: 1rem;
+  }
+  .pj-arrow {
+    width: 48px;
+    height: 48px;
   }
 }
 

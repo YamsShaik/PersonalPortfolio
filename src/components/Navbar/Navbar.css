@@ -1,4 +1,4 @@
-/* Navbar.css — "Control Room" redesign (matches Home.css) */
+/* Navbar.css — "Control Room" redesign (matches Home.css), mobile-adaptive */
 /* Tokens are namespaced (--nv-*) so they never clash with other stylesheets. */
 .navbar {
   --nv-ink: #0b1124;
@@ -18,7 +18,8 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 0 1rem;
+  /* safe-area padding keeps the bar clear of notches in landscape */
+  padding: 0 max(1rem, env(safe-area-inset-right)) 0 max(1rem, env(safe-area-inset-left));
   font-family: var(--nv-body);
 }
 
@@ -32,6 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .navbar-container::before {
@@ -58,11 +60,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
+  min-width: 0;
   color: var(--nv-text);
   text-decoration: none;
 }
 
 .logo-mark {
+  flex: none;
   display: grid;
   place-items: center;
   width: 34px;
@@ -79,6 +83,10 @@
 }
 
 .logo-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: var(--nv-display);
   font-size: 1.25rem;
   font-weight: 700;
@@ -86,6 +94,7 @@
 }
 
 .logo-flag {
+  flex: none;
   margin-left: 0.1rem;
   border-radius: 2px;
   opacity: 0.9;
@@ -164,18 +173,20 @@
   box-shadow: 0 14px 28px -12px rgba(180, 140, 255, 0.95);
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Mobile menu button ---------- */
 .menu-toggle {
   display: none;
+  flex: none;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--nv-line);
   border-radius: 12px;
   background: var(--nv-surface);
   color: var(--nv-text);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
@@ -184,19 +195,46 @@
   border-color: var(--nv-accent);
 }
 
-/* Overlay and drawer stay position: fixed so they cover the screen */
+/* Overlay and drawer stay position: fixed so they cover the screen.
+   cursor: pointer lets iOS Safari register taps on the overlay. */
 .nav-overlay {
   position: fixed;
   inset: 0;
   z-index: 999;
+  cursor: pointer;
   background: rgba(5, 8, 20, 0.65);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
 
+/* Stop the page scrolling behind the open drawer */
+body:has(.navbar.menu-open) {
+  overflow: hidden;
+}
+
+/* ---------- Tablet: tighter links so nothing crowds ---------- */
+@media (min-width: 821px) and (max-width: 1000px) {
+  .nav-links li a {
+    padding: 0.55rem 0.7rem;
+  }
+  .nav-links li a.contact-button {
+    padding: 0.6rem 0.95rem;
+  }
+  .nav-links .nav-icon {
+    display: none;
+  }
+  .logo-flag {
+    display: none;
+  }
+}
+
+/* ---------- Mobile ---------- */
 @media (max-width: 820px) {
   .menu-toggle {
     display: inline-flex;
+    /* the toggle must stay above the drawer so it can close it */
+    position: relative;
+    z-index: 1002;
   }
 
   .nav-menu {
@@ -204,9 +242,10 @@
     top: 0;
     right: 0;
     z-index: 1001;
-    width: min(80%, 320px);
+    width: min(86vw, 320px);
     height: 100vh;
-    padding: 5.5rem 1.25rem 1.5rem;
+    height: 100dvh; /* accounts for mobile browser toolbars */
+    padding: 5.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
     background: var(--nv-ink);
     border-left: 1px solid var(--nv-line);
     box-shadow: -30px 0 60px -30px rgba(0, 0, 0, 0.9);
@@ -214,6 +253,7 @@
     visibility: hidden;
     transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s linear 0.35s;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .nav-menu.active {
@@ -229,8 +269,9 @@
   }
 
   .nav-links li a {
+    min-height: 48px;
     padding: 0.85rem 1rem;
-    font-size: 1rem;
+    font-size: 1.02rem;
   }
 
   .contact-item {
@@ -241,17 +282,33 @@
     justify-content: center;
     padding: 0.85rem 1rem;
   }
-
-  /* the toggle must stay above the drawer so it can close it */
-  .menu-toggle {
-    position: relative;
-    z-index: 1002;
-  }
 }
 
 @media (max-width: 400px) {
+  .navbar {
+    top: 0.6rem;
+    padding-left: max(0.6rem, env(safe-area-inset-left));
+    padding-right: max(0.6rem, env(safe-area-inset-right));
+  }
+  .navbar-container {
+    padding: 0.55rem 0.6rem 0.55rem 0.8rem;
+  }
   .logo-flag {
     display: none;
+  }
+  .logo-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* Short landscape phones: keep drawer items compact */
+@media (max-width: 820px) and (max-height: 480px) {
+  .nav-menu {
+    padding-top: 4.5rem;
+  }
+  .nav-links li a {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
   }
 }
 
