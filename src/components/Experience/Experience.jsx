@@ -25,14 +25,14 @@ const achievements = [
   {
     id: 1,
     title: 'CI/CD implementation',
-    description: 'Developed and maintained pipelines using Jenkins, GitHub Actions and GitLab CI/CD.',
+    description: 'Developed and maintained pipelines using Jenkins, GitHub Actions.',
     impact: 'Reduced deployment time by 40%',
     Icon: FaJenkins,
   },
   {
     id: 2,
     title: 'AWS infrastructure automation',
-    description: 'Automated infrastructure provisioning with Terraform and CloudFormation.',
+    description: 'Automated infrastructure provisioning with Terraform.',
     impact: 'Reduced manual effort by 70%',
     Icon: FaAws,
   },
@@ -67,7 +67,7 @@ const achievements = [
 ];
 
 const focusAreas = [
-  ['Infrastructure automation', 'Automated AWS resources with Terraform and CloudFormation.'],
+  ['Infrastructure automation', 'Automated AWS resources with Terraform.'],
   ['Kubernetes implementation', 'Deployed and managed clusters, ensuring high availability.'],
   ['DevSecOps integration', 'Enhanced security with tools like OWASP ZAP and SonarQube.'],
   ['Monitoring setup', 'Configured CloudWatch, Prometheus and Grafana dashboards.'],
