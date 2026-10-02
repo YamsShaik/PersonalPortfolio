@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Cloud, Code, Home, User, Terminal, Briefcase, Mail, Menu, X } from 'lucide-react';
+import { Cloud, Code, Home, User, Terminal, Briefcase, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const sections = ['home', 'about', 'skills', 'experience', 'projects'];
@@ -14,10 +14,12 @@ const icons = {
   projects: Terminal,
 };
 
+const MOBILE_MAX = 820; // must match the breakpoint in Navbar.css
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const navRef = useRef(null);
+  const toggleRef = useRef(null);
   const reduce = useReducedMotion();
 
   // Highlight the section currently in view
@@ -39,20 +41,30 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close the mobile drawer on outside click or Escape
+  // While the drawer is open: Escape closes it, the page behind can't scroll,
+  // and growing the window to desktop width closes it so nothing stays locked.
   useEffect(() => {
     if (!isMenuOpen) return undefined;
 
-    const onClickOutside = (e) => {
-      if (navRef.current && !navRef.current.contains(e.target)) setIsMenuOpen(false);
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        toggleRef.current?.focus();
+      }
     };
-    const onKey = (e) => e.key === 'Escape' && setIsMenuOpen(false);
+    const onResize = () => {
+      if (window.innerWidth > MOBILE_MAX) setIsMenuOpen(false);
+    };
 
-    document.addEventListener('mousedown', onClickOutside);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+
     return () => {
-      document.removeEventListener('mousedown', onClickOutside);
+      document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
     };
   }, [isMenuOpen]);
 
@@ -63,9 +75,12 @@ const Navbar = () => {
 
   return (
     <>
-      {isMenuOpen && <div className="nav-overlay" aria-hidden="true" />}
+      {/* A real click handler is the most reliable way to close on touch screens */}
+      {isMenuOpen && (
+        <div className="nav-overlay" aria-hidden="true" onClick={() => setIsMenuOpen(false)} />
+      )}
 
-      <nav ref={navRef} className={`navbar ${isMenuOpen ? 'menu-open' : ''}`} aria-label="Main">
+      <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''}`} aria-label="Main">
         <div className="navbar-container">
           <Link to="/" className="logo" onClick={() => handleNavClick('home')}>
             <span className="logo-mark">
@@ -82,15 +97,18 @@ const Navbar = () => {
           </Link>
 
           <button
+            ref={toggleRef}
+            type="button"
             className="menu-toggle"
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
+            aria-controls="nav-menu"
           >
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+          <div id="nav-menu" className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             <ul className="nav-links">
               {sections.map((section) => {
                 const Icon = icons[section];
@@ -121,12 +139,7 @@ const Navbar = () => {
                 );
               })}
 
-              <li className="contact-item">
-                <Link to="/contact" className="contact-button" onClick={() => handleNavClick('contact')}>
-                  <Mail size={17} />
-                  <span>Contact</span>
-                </Link>
-              </li>
+              
             </ul>
           </div>
         </div>

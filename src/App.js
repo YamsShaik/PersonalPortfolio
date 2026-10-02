@@ -7,7 +7,7 @@ import Skills from './components/Skills/Skills';
 import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import Footer from './components/Footer/Footer';
-import Contact from './components/Contact/Contact';
+
 import Preloader from './components/PreLoader/Preloader';
 import './App.css';
 
@@ -27,7 +27,7 @@ function App() {
             <Route path="/skills" element={<Skills />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
+          
           </Routes>
           <Footer />
         </div>
