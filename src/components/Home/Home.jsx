@@ -132,7 +132,7 @@ const Home = () => {
 
           <motion.div className="cta" {...reveal(0.55)}>
             <a
-              href="https://drive.google.com/file/d/1IUMmJgJlu3ffztFv9H3-erGTfQY8CNp3/view?usp=sharing"
+              href="https://drive.google.com/file/d/1R6Ppgu4iCFRBDAGRr26ekQUGKi_0mbM0/view?usp=sharing"
               className="btn btn-primary"
               target="_blank"
               rel="noreferrer"
