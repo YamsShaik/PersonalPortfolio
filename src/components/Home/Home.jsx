@@ -132,12 +132,12 @@ const Home = () => {
 
           <motion.div className="cta" {...reveal(0.55)}>
             <a
-              href="https://drive.google.com/file/d/1uU5o5rnULii5BV-L_q5sPN0ZoktdLVwK/view?usp=sharing"
+              href="/projects"
               className="btn btn-primary"
               target="_blank"
               rel="noreferrer"
             >
-              <FaDownload /> View resume
+              <FaDownload /> View Work
             </a>
           </motion.div>
         </div>
