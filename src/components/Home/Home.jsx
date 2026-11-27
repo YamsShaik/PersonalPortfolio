@@ -132,7 +132,7 @@ const Home = () => {
 
           <motion.div className="cta" {...reveal(0.55)}>
             <a
-              href="/projects"
+              href="https://drive.google.com/file/d/1uU5o5rnULii5BV-L_q5sPN0ZoktdLVwK/view?usp=drivesdk"
               className="btn btn-primary"
               target="_blank"
               rel="noreferrer"
